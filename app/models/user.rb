@@ -64,6 +64,7 @@ class User < ApplicationRecord
   #   update_attribute(:activated,    true)
   #   update_attribute(:activated_at, Time.zone.now)
   # end
+
   def activate
     update_attribute(:activated,    true)
     update_attribute(:activated_at, Time.zone.now)

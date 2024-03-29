@@ -152,7 +152,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_29_020421) do
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_rooms_on_category_id"
     t.index ["location_id"], name: "index_rooms_on_location_id"
   end
 
@@ -189,6 +188,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_29_020421) do
   add_foreign_key "room_numbers", "rooms", on_delete: :cascade
   add_foreign_key "room_photos", "photos", on_delete: :cascade
   add_foreign_key "room_photos", "rooms", on_delete: :cascade
-  add_foreign_key "rooms", "categories"
   add_foreign_key "rooms", "locations"
 end

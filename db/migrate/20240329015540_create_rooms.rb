@@ -12,7 +12,7 @@ class CreateRooms < ActiveRecord::Migration[7.1]
       t.decimal :price
       t.integer :featured_amenity_id
       t.references :location, foreign_key: true
-      t.references :category, foreign_key: true
+      t.integer :category_id
       t.timestamps
     end
   end
