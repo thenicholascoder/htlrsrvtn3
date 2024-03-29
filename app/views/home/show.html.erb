@@ -1,2 +1,4 @@
-<h1>Home#show</h1>
-<p>Find me in app/views/home/show.html.erb</p>
+<%= form.select :location_id,
+  @locations.map { |location| [location.name, location.id] },
+  class: 'form-select',
+  'aria-label': 'Default select example' %>

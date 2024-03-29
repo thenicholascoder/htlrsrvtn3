@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  root 'home#show'
   get 'sessions/new'
   get 'users/new'
   get  "/signup",  to: "users#new"
@@ -14,6 +13,7 @@ Rails.application.routes.draw do
   post   "/login",   to: "sessions#create"
   delete "/logout",  to: "sessions#destroy"
   # Define the parent route.
+  resources :home, only: [:show]
   resources :users
   resources :account_activations, only: [:edit]
   resources :bookings, only: [:new, :create, :index, :show, :edit, :update, :destroy]
