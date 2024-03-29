@@ -1,0 +1,43 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+    <li><%= link_to "Manage Rooms", hotel_listings_manager_rooms_path %></li>
+    <li><%= link_to "Manage Room Number",  hotel_listings_manager_room_manage_room_numbers_path %></li>
+  </ol>
+</nav>
+<h1>Manage Room Numbers</h1>
+<%= link_to "Create a new Room Number", new_hotel_listings_manager_room_manage_room_number_path, class: "btn btn-success" %>
+<% if @room_numbers.length == 0 %>
+  <br><br><i>The Room Number database for Room Id <%= params[:room_id] %> is empty.</i>
+<% else %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Room Number</th>
+      <th scope="col">Floor Number</th>
+      <th scope="col">Smoke Free</th>
+      <th scope="col">Under Maintenance</th>
+      <th colspan="2" scope="col" class="text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ul>
+      <% @room_numbers.each_with_index do |room_number, index| %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= room_number.room_num %></td>
+          <td><%= room_number.floor_num %></td>
+          <td><%= room_number.is_smoke_free %></td>
+          <td><%= room_number.is_under_maintenance %></td>
+          <td><%= link_to 'Update', edit_hotel_listings_manager_room_manage_room_number_path(id: room_number.id), class: "btn btn-primary btn-sm"%></td>
+          <td><%= button_to "Delete", hotel_listings_manager_room_manage_room_number_path(id: room_number), method: :delete, data: { confirm: "Are you sure you want to delete this room number?" }, class: 'btn btn-danger btn-sm' %></td>
+        </tr>
+      <% end %>
+    </ul>
+
+  </tbody>
+  </table>
+  <%= will_paginate @room_numbers %>
+<% end %>

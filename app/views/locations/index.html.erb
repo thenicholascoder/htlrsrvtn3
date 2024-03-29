@@ -1,0 +1,10 @@
+<h1>Locations</h1>
+<% @locations.each do |location| %>
+  <% if location.photo %>
+    <%= image_tag(location.photo.link, alt: 'logo', style: "height: 100px; width: 100px;") %><br>
+  <% end %>
+  <%= location.name %><br>
+  <%= location.city %><br>
+  <%= location.country %><br>
+  <%= location.address %>
+<% end %>

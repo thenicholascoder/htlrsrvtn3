@@ -1,0 +1,27 @@
+<h1>Room Details</h1>
+
+<h3><%= @room.name %></h3>
+<p><%= @room.desc %></p>
+<hr>
+<h3><%= @room.section_name %></h3>
+<h4><%= @room.section_title %></h4>
+<p><%= @room.section_desc %></p>
+Suite size: <%= @room.suite_size %> sqm.<br>
+Max guests: <%= @room.max_guests %><br>
+Bedroom/s: <%= @room.bedroom_count %><br>
+Price: ₱<%= @room.price %><br>
+Room type: <%= @room.category.name %><br><br>
+Gallery:<br>
+<% unless @room.photo.each == 0 %>
+  <% @room.photo.each do |photo| %>
+    <%= image_tag(photo.link, alt: 'logo', style: "height: 100px; width: 100px;") %>
+  <% end %>
+<% end %><br><br>
+
+Amenities:<br>
+<% unless @room.amenities.each == 0 %>
+  <% @room.amenities.each do |amenity| %>
+    <%= amenity.name %>
+    <%= image_tag(amenity.photo.link, alt: 'logo', style: "height: 100px; width: 100px;") %>
+  <% end %>
+<% end %><br><br>

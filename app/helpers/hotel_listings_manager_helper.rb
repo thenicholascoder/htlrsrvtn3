@@ -1,0 +1,2 @@
+module HotelListingsManagerHelper
+end

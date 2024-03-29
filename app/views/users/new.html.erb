@@ -1,0 +1,61 @@
+<% provide(:title, "Sign up") %>
+<% if retrieve_last_page_or_default == hotel_listings_manager_users_path %>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+      <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+      <li><%= link_to "Manage Users", hotel_listings_manager_users_path %></li>
+      <li><%= link_to "Create a new user", signup_path %></li>
+    </ol>
+  </nav>
+  <h1 class="text-center">Create a new user</h1>
+<% else %>
+  <h1 class="text-center">Sign up</h1>
+<% end %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @user) do |f| %>
+      <%= render 'shared/error_messages' %>
+      <div>
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name, class: 'form-control' %>
+      </div>
+      <div>  
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name, class: 'form-control' %>
+      </div> 
+      <div> 
+        <%= f.label :country %>
+        <%= f.text_field :country, class: 'form-control' %>
+      </div> 
+      <div>
+        <%= f.label :mobile %>
+        <%= f.text_field :mobile, class: 'form-control' %>
+      </div> 
+      <div>
+        <%= f.check_box :is_admin, class: "form-check-input" %>
+        <%= f.label :is_admin, class: "form-check-label" %> <br>
+      </div>
+      <div>
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
+      </div>
+      <div>
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation, "Password Confirmation" %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
+      </div>
+      <div>
+        <% if retrieve_last_page_or_default == hotel_listings_manager_users_path %>
+          <%= f.submit "Create an account", class: "btn btn-primary" %>
+        <% else %>
+          <%= f.submit "Create my account", class: "btn btn-primary" %>
+        <% end %>
+        <%= link_to "Cancel", retrieve_last_page_or_default(default_path: root_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+      </div>
+    <% end %>
+  </div>
+</div>

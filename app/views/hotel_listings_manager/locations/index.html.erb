@@ -1,0 +1,47 @@
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+  <li><%= link_to "Manage Locations", hotel_listings_manager_locations_path %></li>
+</ol>
+</nav>
+<h1>Manage Locations</h1>
+<%= link_to "Create new Location", new_hotel_listings_manager_location_path, class: "btn btn-success" %>
+<% if @locations.length == 0 %>
+  <br><br><i>The Location database is empty.</i>
+<% else %>
+  <%= will_paginate @locations %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">City</th>
+      <th scope="col">Address</th>
+      <th scope="col">Country</th>
+      <th scope="col">Photo</th>
+      <th colspan="2" scope="col" class="text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ul>
+      <% @locations.each_with_index do |location, index| %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= location.name %></td>
+          <td><%= location.city %></td>
+          <td><%= location.address %></td>
+          <td><%= location.country %></td>
+          <td>
+            <%= image_tag(location.photo.link, alt: location.photo.link, height: 100, class: "card-img-top") %>
+          </td>
+          <td><%= link_to 'Update', edit_hotel_listings_manager_location_path(location.id), class: "btn btn-primary btn-sm" %></td>
+          <td><%= button_to "Delete", hotel_listings_manager_location_path(location), method: :delete, data: { confirm: "Are you sure you want to delete this location?" }, class: 'btn btn-danger btn-sm' %></td>
+        </tr>
+      <% end %>
+    </ul>
+
+  </tbody>
+  </table>
+  <%= will_paginate @locations %>
+<% end %>

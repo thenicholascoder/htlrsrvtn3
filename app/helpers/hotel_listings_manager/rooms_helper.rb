@@ -1,0 +1,2 @@
+module HotelListingsManager::RoomsHelper
+end

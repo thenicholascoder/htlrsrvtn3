@@ -1,0 +1,38 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+    <li><%= link_to "Manage Photos", hotel_listings_manager_photos_path %></li>
+  </ol>
+</nav>
+<h1>Manage Photos</h1>
+<%= link_to "Upload new Photo/s", new_hotel_listings_manager_photo_path, class: "btn btn-success" %>
+<% if @photos.length == 0 %>
+  <br><br><i>The Photo database is empty.</i>
+<% else %>
+  <%= will_paginate @photos %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Link</th>
+        <th colspan="2" scope="col" class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ul>
+        <% @photos.each_with_index do |photo, index| %>
+          <tr>
+            <th scope="row"><%= index + 1 %></th>
+            <td><%= photo.link %></td>
+            <td><%= link_to 'Update', edit_hotel_listings_manager_photo_path(photo.id), class: "btn btn-primary btn-sm" %></td>
+            <td><%= button_to "Delete", hotel_listings_manager_photo_path(photo), method: :delete, data: { confirm: "Are you sure you want to delete this photo?" }, class: 'btn btn-danger btn-sm' %></td>
+          </tr>
+        <% end %>
+      </ul>
+    </tbody>
+  </table>
+  <%= will_paginate @photos %>
+<% end %>
+
+

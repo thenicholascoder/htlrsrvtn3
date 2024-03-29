@@ -1,0 +1,24 @@
+<%= form_with(model: @user) do |f| %>
+  <%= render 'shared/error_messages' %>
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name, class: 'form-control' %>
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name, class: 'form-control' %>
+  <%= f.label :country %>
+  <%= f.text_field :country, class: 'form-control' %>
+  <%= f.label :email %>
+  <%= f.email_field :email, class: 'form-control' %>
+  <%= f.label :mobile %>
+  <%= f.text_field :mobile, class: 'form-control' %>
+  <% if current_user.try(:is_admin) %>
+    <%= f.check_box :is_admin, class: "form-check-input" %>
+    <%= f.label :is_admin, class: "form-check-label" %> <br>
+  <% end %>
+  <%= f.label :password %>
+  <%= f.password_field :password, class: 'form-control' %>
+  <%= f.label :password_confirmation, "Confirmation" %>
+  <%= f.password_field :password_confirmation, class: 'form-control' %>
+  <%= f.submit "Save changes", class: "btn btn-primary" %>
+  <%= link_to "Cancel", retrieve_last_page_or_default(default_path: root_path), class: "btn"%>
+  <%= link_to "Delete account", @user, data: { "turbo-method": :delete, turbo_confirm: "You sure?"}, class: "btn btn-danger" %>
+<% end %>

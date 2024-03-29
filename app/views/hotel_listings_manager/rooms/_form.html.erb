@@ -1,0 +1,104 @@
+<%= form_with(model: @room, url: hotel_listings_manager_room_path(@room), method: :patch) do |form| %>
+  <% if room.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(room.errors.count, "error") %> prohibited this room from being saved:</h2>
+      <ul>
+      <% room.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+    <%= form.label :desc, "Description" %>
+    <%= form.text_area :desc, rows: 2, class: 'form-control' %>
+    <%= form.label :section_name %>
+    <%= form.text_field :section_name, class: 'form-control' %>
+    <%= form.label :section_title %>
+    <%= form.text_field :section_title, class: 'form-control' %>
+    <%= form.label :section_desc, "Section description" %>
+    <%= form.text_area :section_desc, rows: 2, class: 'form-control' %>
+    <%= form.label :suite_size, "Suite size in sq. m" %>
+    <%= form.number_field :suite_size, step: 1, min: 0, class: 'form-control' %>
+    <%= form.label :max_guests, "Max guests" %>
+    <%= form.number_field :max_guests, step: 1, min: 0, class: 'form-control' %>
+    <%= form.label :bedroom_count, "No. of bedrooms" %>
+    <%= form.number_field :bedroom_count, step: 1, min: 0, class: 'form-control' %>
+    <%= form.label :price %>
+    <%= form.number_field :price, step: '0.01', class: 'form-control' %><br>
+
+    <%= form.label :category_id, "Category:" %>
+    <% if @categories.count == 0 %>
+      <br>
+      <i>There are no available categories yet.</i>
+      <br>
+    <% else %>
+      <%= form.select :category_id,
+        @categories.map { |category| [category.name, category.id] },
+        class: 'form-select',
+        'aria-label': 'Default select example' %><br>
+    <% end %><br>
+
+
+
+
+    <%= form.label "Current Room Bed Types:" %><br>
+    <% if @roombeds.count == 0 %>
+      <br>
+      <i>There are no available bed types yet.</i>
+      <br>
+    <% else %>
+      <ol>
+        <% @roombeds.each do |roombed| %>
+          <li>
+            <%= form.label "bed_id: #{roombed.bed_id}", "#{roombed.bed.name}" %>
+            <%= form.number_field "bed_id:#{roombed.bed_id}", value: roombed.count, min: 0 %>
+          </li>
+        <% end %>
+      </ol>
+    <% end %><br>
+
+    <%= form.label :location_id, "Location:" %>
+    <% if @locations.count == 0 %>
+      <br>
+      <i>There are no available locations yet.</i>
+      <br>
+    <% else %>
+      <%= form.select :location_id,
+        @locations.map { |location| [location.name, location.id] },
+        class: 'form-select',
+        'aria-label': 'Default select example' %><br>
+    <% end %><br>
+
+    <%= form.label 'Current Room Amenities:' %>
+    <% if @amenities.count == 0 %>
+      <br>
+      <i>There are no available amenities yet.</i>
+      <br>
+    <% else %>
+      <br>
+      <% @amenities.each do |amenity| %>
+        <%= form.check_box :amenity_ids, { multiple: true }, amenity.id, @room_amenity_ids.include?(amenity.id) %>
+        <%= label_tag :amenity_ids, amenity.name, class: 'checkbox-inline' %><br>
+      <% end %>
+    <% end %>
+
+    <br>
+    <%= form.label 'Current Room Photos:' %><br>
+    <% if @room_photos.count == 0 %>
+      <i>This room does not have any photos yet.</i>
+    <% else %>
+      <% @room_photos.each  do |room_photo| %>
+        <%= image_tag room_photo.photo.link, alt: room_photo.photo.link, height: 100 %>
+      <% end %>
+    <% end %><br><br>
+    <%= form.label 'Upload and replace all current Room Photos:' %><br>
+    <%= form.file_field :images, multiple: true %><br>
+  </div>
+  <div class="actions">
+    <%= form.submit "Update Room", class: "btn btn-primary" %>
+    <%= link_to "Cancel", retrieve_last_page_or_default(default_path: hotel_listings_manager_rooms_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+  </div>
+<% end %>

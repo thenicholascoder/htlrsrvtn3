@@ -1,0 +1,21 @@
+<%= form_with(model: @photo, url: hotel_listings_manager_photo_path(@photo), method: :patch) do |form| %>
+  <% if photo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(photo.errors.count, "error") %> prohibited this photo from being saved:</h2>
+      <ul>
+      <% photo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :image, 'Current Image:' %><br>
+    <%= image_tag(@photo.link, alt: @photo.link, height: 300) %>
+    <%= form.file_field :image %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Update Photo", class: "btn btn-primary" %>
+    <%= link_to "Cancel", retrieve_last_page_or_default(default_path: hotel_listings_manager_photos_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+  </div>
+<% end %>

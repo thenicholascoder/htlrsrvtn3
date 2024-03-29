@@ -1,0 +1,24 @@
+<%= form_with(model: @bed, url: hotel_listings_manager_bed_path(@bed), method: :patch) do |form| %>
+  <% if bed.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bed.errors.count, "error") %> prohibited this bed from being saved:</h2>
+      <ul>
+      <% bed.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+    <%= form.label :length %> (inches)
+    <%= form.number_field :length, class: 'form-control' %>
+    <%= form.label :width %> (inches)
+    <%= form.number_field :width, class: 'form-control' %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Update Bed Type", class: "btn btn-primary" %>
+    <%= link_to "Cancel", retrieve_last_page_or_default(default_path: hotel_listings_manager_beds_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+  </div>
+<% end %>

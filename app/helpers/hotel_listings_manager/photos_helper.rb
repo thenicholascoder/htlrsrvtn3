@@ -1,0 +1,2 @@
+module HotelListingsManager::PhotosHelper
+end

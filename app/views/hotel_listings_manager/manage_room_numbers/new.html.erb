@@ -1,0 +1,40 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+    <li><%= link_to "Manage Rooms", hotel_listings_manager_rooms_path %></li>
+    <li><%= link_to "Manage Room Number", hotel_listings_manager_room_manage_room_numbers_path %></li>
+    <li><%= link_to "Create new Room Number", new_hotel_listings_manager_room_manage_room_number_path %></li>
+  </ol>
+</nav>
+<h1>Create a new Room Number</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @room_number, url: hotel_listings_manager_room_manage_room_numbers_path) do |form| %>
+      <% if @room_number.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@room_number.errors.count, "error") %> prohibited this room number from being saved:</h2>
+          <ul>
+          <% @room_number.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="field">
+        <%= form.label :room_num, "Room Number" %>
+        <%= form.number_field :room_num, step: 1, min: 0, class: 'form-control' %>
+        <%= form.label :floor_num, "Floor Number" %>
+        <%= form.number_field :floor_num, step: 1, min: 0, class: 'form-control' %>
+        <%= form.check_box :is_smoke_free, class: "form-check-input" %>
+        <%= form.label :is_smoke_free, class: "form-check-label" %> <br>
+        <%= form.check_box :is_under_maintenance, class: "form-check-input" %>
+        <%= form.label :is_under_maintenance, class: "form-check-label" %> <br>
+      </div>
+      <div class="actions">
+        <%= form.submit "Create Room Number", class: "btn btn-primary" %>
+        <%= link_to "Cancel", retrieve_last_page_or_default(default_path: hotel_listings_manager_room_manage_room_numbers_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+    <li><%= link_to "Manage Amenities", hotel_listings_manager_amenities_path %></li>
+  </ol>
+</nav>
+<h1>Manage Amenities</h1>
+<%= link_to "Create new Amenity", new_hotel_listings_manager_amenity_path, class: "btn btn-success" %>
+<% if @amenities.length == 0 %>
+  <br><br><i>The Amenity database is empty.</i>
+<% else %>
+  <%= will_paginate @amenities %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Photo</th>
+        <th colspan="2" scope="col" class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ul>
+        <% @amenities.each_with_index do |amenity, index| %>
+          <tr>
+            <th scope="row"><%= index + 1 %></th>
+            <td><%= amenity.name %></td>
+            <td>
+              <%= image_tag(amenity.photo.link, alt: amenity.photo.link, height: 100, class: "card-img-top") %>
+            </td>
+            <td><%= link_to 'Update', edit_hotel_listings_manager_amenity_path(amenity.id), class: "btn btn-primary btn-sm" %></td>
+            <td><%= button_to "Delete", hotel_listings_manager_amenity_path(amenity), method: :delete, data: { confirm: "Are you sure you want to delete this amenity?" }, class: 'btn btn-danger btn-sm' %></td>
+          </tr>
+        <% end %>
+      </ul>
+    </tbody>
+  </table>
+  <%= will_paginate @amenities %>
+<% end %>
+
+

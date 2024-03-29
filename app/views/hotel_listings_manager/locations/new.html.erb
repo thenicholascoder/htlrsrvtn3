@@ -1,0 +1,41 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+    <li><%= link_to "Manage Locations", hotel_listings_manager_locations_path %></li>
+    <li><%= link_to "Add a new Location", new_hotel_listings_manager_location_path %></li>
+  </ol>
+</nav>
+<h1>Add a new Location</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @location, url: hotel_listings_manager_locations_path, multipart: true) do |form| %>
+      <% if @location.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@location.errors.count, "error") %> prohibited this bed from being saved:</h2>
+          <ul>
+          <% @location.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="field">
+        <%= form.label :name %>
+        <%= form.text_field :name, class: 'form-control' %>
+        <%= form.label :city %>
+        <%= form.text_field :city, class: 'form-control' %>
+        <%= form.label :address %>
+        <%= form.text_field :address, class: 'form-control' %>
+        <%= form.label :country %>
+        <%= form.text_field :country, class: 'form-control' %>
+        <%= form.label 'Upload image:' %><br>
+        <%= form.file_field :image %>
+      </div>
+      <div class="actions">
+        <%= form.submit "Create location", class: "btn btn-primary" %>
+        <%= link_to "Cancel", retrieve_last_page_or_default(default_path: hotel_listings_manager_locations_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+      </div>
+    <% end %>
+  </div>
+</div>

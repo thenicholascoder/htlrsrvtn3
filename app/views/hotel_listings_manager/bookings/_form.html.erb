@@ -1,0 +1,89 @@
+<%= form_with(model: @reservation, url: hotel_listings_manager_booking_path(@reservation), method: :patch) do |form| %>
+  <% if reservation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reservation.errors.count, "error") %> prohibited this booking from being saved:</h2>
+      <ul>
+      <% reservation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :guest_prefix %>
+    <%= form.text_field :guest_prefix, class: 'form-control' %>
+
+    <%= form.label :guest_firstname %>
+    <%= form.text_field :guest_firstname, class: 'form-control' %>
+
+    <%= form.label :guest_lastname %>
+    <%= form.text_field :guest_lastname, class: 'form-control' %>
+
+    <%= form.label :guest_phone %>
+    <%= form.text_field :guest_phone, class: 'form-control' %>
+
+    <%= form.label :guest_email %>
+    <%= form.email_field :guest_email, class: 'form-control' %>
+
+    <%= form.label :guest_country %>
+    <%= form.text_field :guest_country, class: 'form-control' %>
+
+    <%= form.label :guest_address %>
+    <%= form.text_field :guest_address, class: 'form-control' %>
+
+    <%= form.label :guest_city %>
+    <%= form.text_field :guest_city, class: 'form-control' %>
+
+    <%= form.label :guest_zip_code %>
+    <%= form.text_field :guest_zip_code, class: 'form-control' %>
+
+    <%= form.label :guest_check_in_reason %>
+    <%= form.text_field :guest_check_in_reason, class: 'form-control' %>
+
+    <%= form.label :guest_special_needs %>
+    <%= form.text_field :guest_special_needs, class: 'form-control' %>
+
+    <%= form.label :check_in_date %>
+    <%= form.date_field :check_in_date, class: 'form-control' %>
+
+    <%= form.label :check_out_date %>
+    <%= form.date_field :check_out_date, class: 'form-control' %>
+
+    <%= form.label :adults_count %>
+    <%= form.number_field :adults_count, class: 'form-control' %>
+
+    <%= form.label :children_count %>
+    <%= form.number_field :children_count, class: 'form-control' %>
+
+    <%= form.label :total_bill %>
+    <%= form.number_field :total_bill, class: 'form-control' %>
+
+    <%= form.label :checkin_confirmed %>
+    <%= form.check_box :checkin_confirmed, class: 'form-check-input' %><br>
+
+    <%= form.label :checkout_confirmed %>
+    <%= form.check_box :checkout_confirmed, class: 'form-check-input' %><br>
+
+    <%= form.label :room_key_returned %>
+    <%= form.check_box :room_key_returned, class: 'form-check-input' %><br>
+
+    <%= form.label :review %>
+    <%= form.text_area :review, class: 'form-control', rows: 4, cols: 2 %>
+
+    <%= form.label :review_timestamp %>
+    <%= form.time_field :review_timestamp, class: 'form-control' %>
+
+    <br><%= form.label :user_id, "User Id" %><br>
+    <i><%= @reservation.user_id %></i><br><br>
+
+    <%= form.label :room_id, "Room Id" %><br>
+    <i><%= @reservation.room_id %></i><br><br>
+
+    <%= form.label :reservation_timestamp %><br>
+    <i><%= @reservation.reservation_timestamp %></i><br><br>
+  </div>
+  <div class="actions">
+    <%= form.submit "Update Booking", class: "btn btn-primary" %>
+    <%= link_to "Cancel", retrieve_last_page_or_default(default_path: hotel_listings_manager_bookings_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+  </div>
+<% end %>

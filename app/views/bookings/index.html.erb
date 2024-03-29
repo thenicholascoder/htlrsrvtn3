@@ -1,0 +1,39 @@
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Bookings", bookings_path %></li>
+</ol>
+</nav>
+<h1>User Bookings</h1>
+<% if @reservations.length == 0 %>
+  <br><br><i>Your reservation is empty.</i>
+<% else %>
+  <%= will_paginate @reservations %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Reservation Id</th>
+      <th scope="col">Reservation Date</th>
+      <th scope="col">Check In Date</th>
+      <th scope="col">Check Out Date</th>
+      <th colspan="1" scope="col" class="text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ul>
+      <% @reservations.each_with_index do |reservation, index| %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= reservation.id %></td>
+          <td><%= reservation.reservation_timestamp %></td>
+          <td><%= reservation.check_in_date %></td>
+          <td><%= reservation.check_out_date %></td>
+          <td><%= button_to "Cancel Reservation", booking_path(reservation), method: :delete, data: { confirm: "Are you sure you want to cancel this reservation?" }, class: 'btn btn-danger btn-sm' %></td>
+        </tr>
+      <% end %>
+    </ul>
+  </tbody>
+  </table>
+  <%= will_paginate @reservations %>
+<% end %>

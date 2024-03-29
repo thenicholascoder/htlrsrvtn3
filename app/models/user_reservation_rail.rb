@@ -1,0 +1,2 @@
+class UserReservationRail < ApplicationRecord
+end

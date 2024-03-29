@@ -1,0 +1,2 @@
+module HotelListingsManager::UserReservationsHelper
+end

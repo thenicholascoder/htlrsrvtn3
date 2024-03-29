@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  room_num: 9.99
+  floor_num: 9.99
+  is_smoke_free: false
+
+two:
+  room_num: 9.99
+  floor_num: 9.99
+  is_smoke_free: false

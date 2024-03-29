@@ -1,0 +1,47 @@
+<% provide(:title, 'Manage Users') %>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+    <li><%= link_to "Manage Users", hotel_listings_manager_users_path %></li>
+  </ol>
+</nav>
+<h1>Manage Users</h1>
+<%= link_to "Create a new User", signup_path, class: "btn btn-success" %>
+<% if @users.length == 0 %>
+  <br><br><i>The User database is empty.</i>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Country</th>
+        <th scope="col">Email</th>
+        <th scope="col">Mobile</th>
+        <th scope="col">Is Admin</th>
+        <th colspan="2" scope="col" class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ul>
+        <% @users.each_with_index do |user, index| %>
+          <tr>
+            <th scope="row"><%= index + 1 %></th>
+            <td><%= link_to user.first_name, user %></td>
+            <td><%= link_to user.last_name, user %></td>
+            <td><%= link_to user.country, user %></td>
+            <td><%= link_to user.email, user %></td>
+            <td><%= link_to user.mobile, user %></td>
+            <td><%= link_to user.is_admin == true ? "true" : "false", user %></td>
+            <td><%= link_to 'Update', edit_user_path(user.id), class: "btn btn-primary btn-sm" %></td>
+            <td><%= link_to "Delete", user, data: { "turbo-method": :delete, turbo_confirm: "You sure?"}, class: "btn btn-danger btn-sm" %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </ul>
+    </tbody>
+  </table>
+  <%= will_paginate @users %>
+<% end %>

@@ -1,0 +1,348 @@
+`
+notes
+
+
+
+
+setup all basic controllers and views
+
+
+
+-------------------
+
+AFFECTED STORAGES
+      NON FK + MODEL STORAGE (TABLE CONTROLLED STORAGE?)
+        t.string "name"
+        t.string "desc"
+        t.string "section_name"
+        t.string "section_title"
+        t.string "section_desc"
+        t.integer "suite_size"
+        t.integer "max_guests"
+        t.integer "bedroom_count"
+        t.decimal "price"
+        t.integer "category_id"
+        t.integer "location_id"
+        t.integer "featured_amenity_id" <only able to add/edit after a room.id is created>
+
+      ID BUT NOT FK + MODEL STORAGE  
+        done t.integer "category_id"
+        done t.integer "location_id"
+
+      FK/REFERENCE/JOIN TABLE + NON MODEL STORAGE (JOIN TABLE CONTROLLED STORAGE?)
+        room_photos
+        room_beds <only able to add/edit after a room.id is created>
+        room_amenities
+
+      STOGAGES RELATED TO > FK/REFERENCE/JOIN TABLE + NON MODEL STORAGE
+        photos
+
+WHAT MIGRATION SHOULD I MODIFY INSIDE MY MODEL
+  done  add_column :rooms, :featured_amenity_id, :integer
+  done  add_column :rooms, :category_id, :integer
+  done  add_column :rooms, :location_id, :integer
+
+WHAT MIGRATION SHOULD I MODIFY OUTSIDE MY MODEL WHICH ARE JOIN MODELS
+        sample migration
+          add_reference :room_beds, :bed, foreign_key: { on_delete: :cascade }
+          add_reference :room_beds, :room, foreign_key: { on_delete: :cascade }
+  room_photos (check first in schema)
+    add_reference :room_photos, :room, foreign_key: { on_delete: :cascade }
+    add_reference :room_photos, :photo, foreign_key: { on_delete: :cascade }
+  room_beds (check first in schema)
+    add_reference :room_beds, :room, foreign_key: { on_delete: :cascade }
+    add_reference :room_beds, :bed, foreign_key: { on_delete: :cascade }
+  room_amenities (check first in schema)
+    add_reference :room_amenities, :room, foreign_key: { on_delete: :cascade }
+    add_reference :room_amenities, :amenity, foreign_key: { on_delete: :cascade }
+
+  ang join tables lang ba ang nag  REFERENCE ATTR + ACTIVERECORD ASSOCIATION?
+  and models lang ang nag ACTIVEROECRD ASSOCIATION?
+
+
+CHECK ASSOCIATIONS
+
+    check first if schema of join table is set up
+      t.integer "room_id"
+      t.integer "photo_id"
+      t.index ["photo_id"], name: "index_room_photos_on_photo_id"
+      t.index ["room_id"], name: "index_room_photos_on_room_id"
+    
+    check first if associations are set up 
+      TABLE BETWEEN/JOINTABLE =
+          belongs_to :photo
+          belongs_to :room
+      TABLE BESIDE/ TABLE =
+          has_many :room_photo
+          has_many :room, through: :room_photo
+
+          has_many :room_photo
+          has_many :photo, through: :room_photo
+
+
+
+if done
+
+every storage here check if you have it/available on your controller action
+every storage here check if you have it/available on your action view
+
+start doing controller algo
+1. console log all output of the form when hitting send
+1.1 check if what you need from forms is what you get in params
+2. try saving "TABLE STORAGE" first
+
+  def create
+    puts params
+    @room = Room.new(params.require(:room).permit(:name, :desc, :section_name, :section_title, :section_desc, :suite_size, :max_guests, :bedroom_count, :price, :category_id, :location_id))
+    puts @room
+    if @room.save
+      redirect_to retrieve_last_page_or_default
+      flash[:success] = "Room was successfully created."
+    else
+      @errors = @room.errors.full_messages
+      render :new
+    end
+  end
+
+  2.1 check Room.last in rails console
+  3. try saving "JOIN TABLE STORAGE" one at a time
+  3.1 room_photos
+    data view to controller
+    data controller to Photo model
+    data controller to RoomPhoto model
+      room_photo = RoomPhoto.new(room_id: @room.id, photo_id: photo_id)
+      room_photo.save
+      puts "room_photo roomid is #{room_photo.room_id} and photoid is #{room_photo.photo_id}"
+  3.2 check in console
+  4
+
+
+
+
+
+
+<form_label bed.id bed.name>  <new >
+Queen size bed: <amount>
+Double size bed: <amount>
+Twin size bed: <amount>
+
+
+`
+
+
+
+
+
+
+
+  <% checked = @room_amenities.include?(amenity) %>
+  <%= form.check_box :amenity_ids, { multiple: true }, amenity.id, checked %> 
+  <%= label_tag :amenity_ids, amenity.name, class: 'checkbox-inline' %> <br>
+
+    <li><%= link_to "Manage Room Beds", hotel_listings_manager_room_beds_path %></li>
+  <li><%= link_to "Manage Room Photos", hotel_listings_manager_room_photos_path %></li>
+  <li><%= link_to "Manage Room Amenities", hotel_listings_manager_room_amenities_path %></li>
+    <li><%= link_to "Manage User Bookings", hotel_listings_manager_user_reservations_path %></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ActiveRecord::Schema[7.1].define(version: 2024_03_27_130732) do
+  create_table "amenities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "photo_id"
+    t.index ["photo_id"], name: "index_amenities_on_photo_id"
+  end
+
+  create_table "beds", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "length", precision: 10, scale: 2
+    t.decimal "width", precision: 10, scale: 2
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "location_photos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "photo_id"
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_location_photos_on_location_id"
+    t.index ["photo_id"], name: "index_location_photos_on_photo_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "city"
+    t.string "country"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.string "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.string "guest_prefix"
+    t.string "guest_firstname"
+    t.string "guest_lastname"
+    t.string "guest_phone"
+    t.string "guest_email"
+    t.string "guest_country"
+    t.string "guest_address"
+    t.string "guest_city"
+    t.string "guest_zip_code"
+    t.string "guest_check_in_reason"
+    t.string "guest_special_needs"
+    t.date "check_in_date"
+    t.date "check_out_date"
+    t.date "adults_count"
+    t.date "children_count"
+    t.decimal "total_bill"
+    t.time "reservation_timestamp"
+    t.boolean "checkin_confirmed"
+    t.boolean "checkout_confirmed"
+    t.boolean "room_key_returned"
+    t.string "review"
+    t.time "review_timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "room_amenities", force: :cascade do |t|
+    t.integer "amenity_id"
+    t.integer "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["amenity_id"], name: "index_room_amenities_on_amenity_id"
+    t.index ["room_id"], name: "index_room_amenities_on_room_id"
+  end
+
+  create_table "room_beds", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "bed_id"
+    t.integer "room_id"
+    t.integer "count"
+    t.index ["bed_id"], name: "index_room_beds_on_bed_id"
+    t.index ["room_id"], name: "index_room_beds_on_room_id"
+  end
+
+  create_table "room_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "room_id"
+    t.integer "category_id"
+    t.index ["category_id"], name: "index_room_categories_on_category_id"
+    t.index ["room_id"], name: "index_room_categories_on_room_id"
+  end
+
+  create_table "room_numbers", force: :cascade do |t|
+    t.integer "room_num"
+    t.integer "floor_num"
+    t.boolean "is_smoke_free", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_under_maintenance", default: false
+    t.index ["room_num", "floor_num"], name: "index_room_numbers_on_room_num_and_floor_num", unique: true
+  end
+
+  create_table "room_photos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "room_id"
+    t.integer "photo_id"
+    t.index ["photo_id"], name: "index_room_photos_on_photo_id"
+    t.index ["room_id"], name: "index_room_photos_on_room_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.string "desc"
+    t.string "section_name"
+    t.string "section_title"
+    t.string "section_desc"
+    t.integer "suite_size"
+    t.integer "max_guests"
+    t.integer "bedroom_count"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "featured_amenity_id"
+    t.integer "location_id"
+    t.integer "category_id"
+    t.boolean "is_smoke_free", default: false
+    t.index ["category_id"], name: "index_rooms_on_category_id"
+    t.index ["location_id"], name: "index_rooms_on_location_id"
+  end
+
+  create_table "user_reservations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "country"
+    t.string "email"
+    t.string "mobile"
+    t.boolean "is_admin", default: false
+    t.string "password_digest"
+    t.string "remember_digest"
+    t.string "activation_digest"
+    t.boolean "activated"
+    t.datetime "activated_at"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  add_foreign_key "amenities", "photos", on_delete: :cascade
+  add_foreign_key "location_photos", "locations", on_delete: :cascade
+  add_foreign_key "location_photos", "photos", on_delete: :cascade
+  add_foreign_key "room_amenities", "amenities", on_delete: :cascade
+  add_foreign_key "room_amenities", "rooms", on_delete: :cascade
+  add_foreign_key "room_beds", "beds", on_delete: :cascade
+  add_foreign_key "room_beds", "rooms", on_delete: :cascade
+  add_foreign_key "room_categories", "categories", on_delete: :cascade
+  add_foreign_key "room_categories", "rooms", on_delete: :cascade
+  add_foreign_key "room_photos", "photos", on_delete: :cascade
+  add_foreign_key "room_photos", "rooms", on_delete: :cascade
+  add_foreign_key "rooms", "locations"
+end

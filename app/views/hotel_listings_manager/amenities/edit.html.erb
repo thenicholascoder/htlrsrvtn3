@@ -1,0 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+    <li><%= link_to "Manage Amenities", hotel_listings_manager_amenities_path %></li>
+    <li><%= link_to "Edit Amenity", edit_hotel_listings_manager_amenity_path(@amenity.id) %></li>
+  </ol>
+</nav>
+<h1>Edit Amenity</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= render "form", amenity: @amenity %>
+  </div>
+</div>
+

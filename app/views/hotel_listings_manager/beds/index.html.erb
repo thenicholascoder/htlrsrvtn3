@@ -1,0 +1,40 @@
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Hotel Listings Manager", hotel_listings_manager_path %></li>
+  <li><%= link_to "Manage Bed Types", hotel_listings_manager_beds_path %></li>
+</ol>
+</nav>
+<h1>Manage Bed Types</h1>
+<%= link_to "Create a new Bed Type", new_hotel_listings_manager_bed_path, class: "btn btn-success" %>
+<% if @beds.length == 0 %>
+  <br><br><i>The Bed database is empty.</i>
+<% else %>
+  <%= will_paginate @beds %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Bed Name</th>
+      <th scope="col">Bed Length (inches)</th>
+      <th scope="col">Bed Width (inches)</th>
+      <th colspan="2" scope="col" class="text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ul>
+      <% @beds.each_with_index do |bed, index| %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= bed.name %></td>
+          <td><%= bed.length %></td>
+          <td><%= bed.width %></td>
+          <td><%= link_to 'Update', edit_hotel_listings_manager_bed_path(bed.id), class: "btn btn-primary btn-sm" %></td>
+          <td><%= button_to "Delete", hotel_listings_manager_bed_path(bed), method: :delete, data: { confirm: "Are you sure you want to delete this bed type?" }, class: 'btn btn-danger btn-sm' %></td>
+        </tr>
+      <% end %>
+    </ul>
+  </tbody>
+  </table>
+  <%= will_paginate @beds %>
+<% end %>
