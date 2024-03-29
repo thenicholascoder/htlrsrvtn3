@@ -1,27 +1,37 @@
-<h1>Room Details</h1>
-
-<h3><%= @room.name %></h3>
-<p><%= @room.desc %></p>
-<hr>
-<h3><%= @room.section_name %></h3>
-<h4><%= @room.section_title %></h4>
-<p><%= @room.section_desc %></p>
-Suite size: <%= @room.suite_size %> sqm.<br>
-Max guests: <%= @room.max_guests %><br>
-Bedroom/s: <%= @room.bedroom_count %><br>
-Price: ₱<%= @room.price %><br>
-Room type: <%= @room.category.name %><br><br>
-Gallery:<br>
-<% unless @room.photo.each == 0 %>
-  <% @room.photo.each do |photo| %>
-    <%= image_tag(photo.link, alt: 'logo', style: "height: 100px; width: 100px;") %>
-  <% end %>
-<% end %><br><br>
-
-Amenities:<br>
-<% unless @room.amenities.each == 0 %>
-  <% @room.amenities.each do |amenity| %>
-    <%= amenity.name %>
-    <%= image_tag(amenity.photo.link, alt: 'logo', style: "height: 100px; width: 100px;") %>
-  <% end %>
-<% end %><br><br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="mb-4">Room Details</h1>
+      <h3><%= @room.name %></h3>
+      <p><%= @room.desc %></p>
+      <hr>
+      <h3><%= @room.section_name %></h3>
+      <h4><%= @room.section_title %></h4>
+      <p><%= @room.section_desc %></p>
+      <p>Suite size: <%= @room.suite_size %> sqm.</p>
+      <p>Max guests: <%= @room.max_guests %></p>
+      <p>Bedroom/s: <%= @room.bedroom_count %></p>
+      <p>Price: ₱<%= @room.price %></p>
+      <p>Room type: <%= @room.category.name %></p>
+      <br>
+      <h4>Gallery:</h4>
+      <div class="row">
+        <% @room.photo.each do |photo| %>
+          <div class="col-md-3">
+            <%= image_tag(photo.link, alt: 'Room Image', class: "img-fluid", style: "max-height: 300px;") %>
+          </div>
+        <% end %>
+      </div>
+      <br><br>
+      <h4>Amenities:</h4>
+      <div class="row">
+        <% @room.amenities.each do |amenity| %>
+          <div class="col-md-3">
+            <p><%= amenity.name %></p>
+            <%= image_tag(amenity.photo.link, alt: 'Amenity Image', class: "img-fluid", style: "max-height: 300px;") %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

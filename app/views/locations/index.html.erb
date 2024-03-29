@@ -1,14 +1,19 @@
-<h1>Locations</h1>
-<ul>
-  <% @locations.each do |location| %>
-  <li>
-    <% if location.photo %>
-      <%= image_tag(location.photo.link, alt: 'logo', style: "height: 100px; width: 100px;") %><br>
+<div class="container">
+  <h1 class="mb-4">Hotel Locations</h1>
+  <div class="row">
+    <% @locations.each do |location| %>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <% if location.photo %>
+            <%= image_tag(location.photo.link, alt: 'Location Image', class: "card-img-top img-fluid", style: "max-height: 300px;") %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= location.name %></h5>
+            <p class="card-text"><%= location.city %>, <%= location.country %></p>
+            <p class="card-text"><%= location.address %></p>
+          </div>
+        </div>
+      </div>
     <% end %>
-    <%= location.name %><br>
-    <%= location.city %><br>
-    <%= location.country %><br>
-    <%= location.address %><br><br><br>
-  </li>
-<% end %>
-</ul>
+  </div>
+</div>

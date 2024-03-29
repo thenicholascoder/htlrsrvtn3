@@ -1,20 +1,48 @@
-<% @available_rooms.each do |room| %>
-  <% if room.photo.count > 0 %>
-    <%= image_tag(room.photo.first.link, alt: 'logo', style: "height: 100px; width: 100px;") %>
-  <% end %><br>
-  Name: <%= room.name %><br>
-  Room type: <%= room.category.name %> <br><br>
-  Location: <%= room.location.name %><br>
-  Suite size: <%= room.suite_size %> sqm.<br>
-  Max guests: <%= room.max_guests %><br>
-  Bedroom/s: <%= room.bedroom_count %><br>
-  Beds:<br>
-  <% room.room_bed.each do |room_bed| %>
-    <% if room_bed.count > 0 %>
-      <%= room_bed.count %>
-      <%= room_bed.bed.name %><% if room_bed.count > 1 %>s<% end %><br>
+
+<h1>Available Rooms</h1>
+<div class="row">
+  <% if @available_rooms.empty? %>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <br>
+        <i>No rooms available</i>
+      </div>
+    </div>
+  <% else %>
+    <% @available_rooms.each do |room| %>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <% if room.photo.count > 0 %>
+            <%= image_tag(room.photo.first.link, alt: 'Room Image', class: "card-img-top img-fluid", style: "max-height: 300px;") %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= room.name %></h5>
+            <p class="card-text"><b>Room type:</b> <%= room.category.name %></p>
+            <p class="card-text"><b>Location:</b> <%= room.location.name %></p>
+            <p class="card-text"><b>Suite size:</b> <%= room.suite_size %> sqm.</p>
+            <p class="card-text"><b>Max guests:</b> <%= room.max_guests %></p>
+            <p class="card-text"><b>Bedroom/s:</b> <%= room.bedroom_count %></p>
+            <p class="card-text"><b>Beds:</b></p>
+            <ol class="list-unstyled">
+              <% room.room_bed.each do |room_bed| %>
+                <% if room_bed.count > 0 %>
+                  <li><%= room_bed.count %> <%= room_bed.bed.name.pluralize(room_bed.count) %></li>
+                <% end %>
+              <% end %>
+            </ol>
+            <%= link_to "Room details", room_room_details_path(room), class: "btn btn-info btn-sm" %><br>
+            <%= form_with(url: new_book_path, method: :get, local: true, class: "mt-3") do |form| %>
+              <%= form.hidden_field :check_in_date, value: @check_in_date  %>
+              <%= form.hidden_field :check_out_date, value: @check_out_date  %>
+              <%= form.hidden_field :children_count, value: @children_count  %>
+              <%= form.hidden_field :adults_count, value: @adults_count  %>
+              <%= form.hidden_field :room_id, value: room.id  %>
+              <%= form.hidden_field :total_bill, value: room.price  %>
+              <%= form.submit "Book now", class: "btn btn-success btn-sm" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     <% end %>
   <% end %>
-  <%= link_to "Click here for more details", room_room_details_path(room.id) %>
-  <%= link_to "Book now", room_room_details_path(room.id) %>
-<% end %>
+</div>

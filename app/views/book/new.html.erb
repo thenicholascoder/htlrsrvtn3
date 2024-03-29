@@ -1,0 +1,63 @@
+<h1>Guest Details & Confirmation</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @reservation, url: book_index_path) do |form| %>
+      <div class="field">
+        <%= form.label :guest_prefix %>
+        <%= form.text_field :guest_prefix, class: 'form-control' %>
+
+        <%= form.label :guest_firstname %>
+        <%= form.text_field :guest_firstname, class: 'form-control' %>
+
+        <%= form.label :guest_lastname %>
+        <%= form.text_field :guest_lastname, class: 'form-control' %>
+
+        <%= form.label :guest_phone %>
+        <%= form.text_field :guest_phone, class: 'form-control' %>
+
+        <%= form.label :guest_email %>
+        <%= form.email_field :guest_email, class: 'form-control' %>
+
+        <%= form.label :guest_country %>
+        <%= form.text_field :guest_country, class: 'form-control' %>
+
+        <%= form.label :guest_address %>
+        <%= form.text_field :guest_address, class: 'form-control' %>
+
+        <%= form.label :guest_city %>
+        <%= form.text_field :guest_city, class: 'form-control' %>
+
+        <%= form.label :guest_zip_code %>
+        <%= form.text_field :guest_zip_code, class: 'form-control' %>
+
+        <%= form.label :guest_check_in_reason %>
+        <%= form.text_field :guest_check_in_reason, class: 'form-control' %>
+
+        <%= form.label :guest_special_needs %>
+        <%= form.text_field :guest_special_needs, class: 'form-control' %><br>
+
+        <%= form.label :check_in_date %><br> <%= @check_in_date %>
+        <%= form.hidden_field :check_in_date, value: @check_in_date  %><br><br>
+
+        <%= form.label :check_out_date %><br> <%= @check_out_date %>
+        <%= form.hidden_field :check_out_date, value: @check_out_date  %><br><br>
+
+        <%= form.label :adults_count %><br> <%= @adults_count %>
+        <%= form.hidden_field :adults_count, value: @adults_count  %><br><br>
+
+        <%= form.label :children_count %><br> <%= @children_count %>
+        <%= form.hidden_field :children_count, value: @children_count  %><br><br>
+
+        <%= form.label :total_bill %><br> <%= @total_bill %><br><br>
+        <%= form.hidden_field :total_bill, value: @total_bill  %>
+
+        <%= form.hidden_field :user_id, value: @user_id  %>
+        <%= form.hidden_field :room_id, value: @room_id  %>
+      </div>
+      <div class="actions">
+        <%= form.submit "Create a Booking", class: "btn btn-primary" %>
+        <%= link_to "Cancel", retrieve_last_page_or_default(default_path: root_path), class: "btn", data: { turbo_confirm: "You sure?"}%>
+      </div>
+    <% end %>
+  </div>
+</div>

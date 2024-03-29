@@ -1,20 +1,29 @@
-<h1>Rooms</h1>
-<% @rooms.each do |room| %>
-  <% if room.photo.count > 0 %>
-    <%= image_tag(room.photo.first.link, alt: 'logo', style: "height: 100px; width: 100px;") %>
-  <% end %><br>
-  Name: <%= room.name %><br>
-  Room type: <%= room.category.name %> <br><br>
-  Location: <%= room.location.name %><br>
-  Suite size: <%= room.suite_size %> sqm.<br>
-  Max guests: <%= room.max_guests %><br>
-  Bedroom/s: <%= room.bedroom_count %><br>
-  Beds:<br>
-  <% room.room_bed.each do |room_bed| %>
-    <% if room_bed.count > 0 %>
-      <%= room_bed.count %>
-      <%= room_bed.bed.name %><% if room_bed.count > 1 %>s<% end %><br>
+<div class="container">
+  <h1 class="mb-4">Hotel Rooms</h1>
+  <div class="row">
+    <% @rooms.each do |room| %>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <% if room.photo.count > 0 %>
+            <%= image_tag(room.photo.first.link, alt: 'Room Image', class: "card-img-top img-fluid", style: "max-height: 300px;") %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= room.name %></h5>
+            <p class="card-text">Room type: <%= room.category.name %></p>
+            <p class="card-text">Location: <%= room.location.name %></p>
+            <p class="card-text">Suite size: <%= room.suite_size %> sqm.</p>
+            <p class="card-text">Max guests: <%= room.max_guests %></p>
+            <p class="card-text">Bedroom/s: <%= room.bedroom_count %></p>
+            <p class="card-text">Beds:</p>
+            <% room.room_bed.each do |room_bed| %>
+              <% if room_bed.count > 0 %>
+                <p><%= room_bed.count %> <%= room_bed.bed.name.pluralize(room_bed.count) %></p>
+              <% end %>
+            <% end %>
+            <%= link_to "Click here for more details", room_room_details_path(room.id), class: "btn btn-info btn-sm" %>
+          </div>
+        </div>
+      </div>
     <% end %>
-  <% end %>
-  <%= link_to "Click here for more details", room_room_details_path(room.id) %>
-<% end %>
+  </div>
+</div>
