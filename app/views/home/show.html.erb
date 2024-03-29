@@ -1,4 +1,28 @@
-<%= form.select :location_id,
-  @locations.map { |location| [location.name, location.id] },
-  class: 'form-select',
-  'aria-label': 'Default select example' %>
+<%= form_with(url: available_rooms_path, method: :get, local: true) do |form| %>
+  <div>
+    <%= form.label :location_id, "Location ID" %>
+    <%= form.select :location_id,
+      @locations.map { |location| [location.name, location.id] },
+      class: 'form-select',
+      'aria-label': 'Default select example' %>
+  </div>
+  <div>
+    <%= form.label :check_in_date, "Check-in date" %>
+    <%= form.date_field :check_in_date %>
+  </div>
+  <div>
+    <%= form.label :check_out_date, "Check-out date" %>
+    <%= form.date_field :check_out_date %>
+  </div>
+  <div>
+    <%= form.label :adults_count, "Number of adults" %>
+    <%= form.number_field :adults_count %>
+  </div>
+  <div>
+    <%= form.label :children_count, "Number of children" %>
+    <%= form.number_field :children_count %>
+  </div>
+  <div>
+    <%= form.submit "Search" %>
+  </div>
+<% end %>

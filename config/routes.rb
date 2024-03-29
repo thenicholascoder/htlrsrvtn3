@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   delete "/logout",  to: "sessions#destroy"
   # Define the parent route.
   resources :home, only: [:show]
+  resources :available_rooms, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :book, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  root 'home#show'
   resources :users
   resources :account_activations, only: [:edit]
   resources :bookings, only: [:new, :create, :index, :show, :edit, :update, :destroy]

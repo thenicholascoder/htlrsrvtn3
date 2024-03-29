@@ -1,0 +1,20 @@
+<% @available_rooms.each do |room| %>
+  <% if room.photo.count > 0 %>
+    <%= image_tag(room.photo.first.link, alt: 'logo', style: "height: 100px; width: 100px;") %>
+  <% end %><br>
+  Name: <%= room.name %><br>
+  Room type: <%= room.category.name %> <br><br>
+  Location: <%= room.location.name %><br>
+  Suite size: <%= room.suite_size %> sqm.<br>
+  Max guests: <%= room.max_guests %><br>
+  Bedroom/s: <%= room.bedroom_count %><br>
+  Beds:<br>
+  <% room.room_bed.each do |room_bed| %>
+    <% if room_bed.count > 0 %>
+      <%= room_bed.count %>
+      <%= room_bed.bed.name %><% if room_bed.count > 1 %>s<% end %><br>
+    <% end %>
+  <% end %>
+  <%= link_to "Click here for more details", room_room_details_path(room.id) %>
+  <%= link_to "Book now", room_room_details_path(room.id) %>
+<% end %>

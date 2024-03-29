@@ -20,21 +20,19 @@ class HotelListingsManager::BookingsController < ApplicationController
     current_reserved_and_desired_rooms_count = Reservation.where('check_in_date < ? AND check_out_date > ?', params[:reservation][:check_out_date], params[:reservation][:check_in_date]).where(room_id: params[:reservation][:room_id]).count
     current_desired_rooms_count = RoomNumber.where(room_id: params[:reservation][:room_id]).count
 
-    puts "RD > #{current_reserved_and_desired_rooms_count}, D> #{current_desired_rooms_count}"
-      if current_desired_rooms_count > current_reserved_and_desired_rooms_count
-        puts "THIS WORKS 34"
-        if @reservation.save
-            redirect_to retrieve_last_page_or_default
-            flash[:success] = "Reservation was successfully created."
-        else
-          @errors = @reservation.errors.full_messages
-          flash[:danger] = @errors.join(', ')
-          render :new
-        end
+    if current_desired_rooms_count > current_reserved_and_desired_rooms_count
+      if @reservation.save
+          redirect_to retrieve_last_page_or_default
+          flash[:success] = "Reservation was successfully created."
       else
-        flash[:danger] = "No rooms available."
-        redirect_to retrieve_last_page_or_default
+        @errors = @reservation.errors.full_messages
+        flash[:danger] = @errors.join(', ')
+        render :new
       end
+    else
+      flash[:danger] = "No rooms available."
+      redirect_to retrieve_last_page_or_default
+    end
   end
 
   def edit
